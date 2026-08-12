@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: nginx
+  name: tiny-rq
   namespace: demo
 spec:
   hard:
