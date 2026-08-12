@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: tiny-rq
+  name: demo-rq
   namespace: demo
 spec:
   hard:
