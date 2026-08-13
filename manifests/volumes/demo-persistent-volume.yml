@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: demo-pv
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath: # Where on the node we are taking this storage from
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: demo-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-pv
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: node-1
+  containers:
+    - name: nginx-with-pv
+      image: nginx
+      ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+      volumeMounts:
+        - name: nginx-pv-storage
+          mountPath: "data/"
+  volumes:
+    - name: nginx-pv-storage
+      persistentVolumeClaim:
+        claimName: demo-pvc
