@@ -22,25 +22,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx-with-pv
-spec:
-  nodeSelector:
-    kubernetes.io/hostname: node-1
-  containers:
-    - name: nginx-with-pv
-      image: nginx
-      ports:
-        - name: http
-          containerPort: 80
-          protocol: TCP
-      volumeMounts:
-        - name: nginx-pv-storage
-          mountPath: "data/"
-  volumes:
-    - name: nginx-pv-storage
-      persistentVolumeClaim:
-        claimName: demo-pvc

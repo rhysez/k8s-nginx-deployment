@@ -23,4 +23,26 @@ spec:
           ports:
             - containerPort: 80
               protocol: TCP
+          resources:
+            requests:
+              cpu: 250m
+              memory: "65M"
+            limits:
+              cpu: 500m
+              memory: "130M"
+          volumeMounts:
+            - name: nginx-pv-storage
+              mountPath: "data/"
+          livenessProbe:
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            timeoutSeconds: 1
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 80
       restartPolicy: Always
+      volumes:
+        - name: nginx-pv-storage
+          persistentVolumeClaim:
+            claimName: demo-pvc
